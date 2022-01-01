@@ -1,2 +1,3 @@
 # Clicker
 Клікер
+Some inf
