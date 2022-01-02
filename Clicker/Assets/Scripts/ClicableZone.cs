@@ -4,15 +4,29 @@ using UnityEngine;
 
 public class ClicableZone : MonoBehaviour
 {
-    // Start is called before the first frame update
+    
+    [SerializeField]
+    private Hero _hero;
+    [SerializeField]
+    private Enemy _enemy;
+
     void Start()
     {
-        
+    
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    public void OnClick()
+    {
+        if (_enemy.GetDamage(_hero) <= 0)
+        {
+            _enemy.UpdateLvl();
+            _hero.UpdateDamage();
+            _enemy.GenerateNewHP();
+        }
     }
 }
