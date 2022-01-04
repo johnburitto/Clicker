@@ -40,9 +40,29 @@ public class Enemy : MonoBehaviour
         _enemyLvl += 0.1;
     }
 
-    public double GetDamage(Hero hero)
+    public double GetDamage(List<Hero> heroes, ElementalCoef elementalCoef)
     {
-        return _health -= hero.Damage;
+        GetCommonDamage(heroes);
+        GetElementalDamage(heroes, elementalCoef);
+
+        return _health;
+    }
+
+    private void GetCommonDamage(List<Hero> heroes)
+    {
+        for (int i = 0; i < heroes.Count; i++)
+        {
+            _health -= heroes[i].Damage;
+        }
+    }
+
+    private void GetElementalDamage(List<Hero> heroes, ElementalCoef elementalCoef)
+    {
+        for (int i = 0; i < heroes.Count - 1; i++)
+        {
+            _health -= (heroes[i].Damage + heroes[i + 1].Damage) 
+                * elementalCoef.ElementalCoefM[(int)heroes[i].HeroElement][(int)heroes[i + 1].HeroElement];
+        }
     }
 
     public void GenerateNewHP()
