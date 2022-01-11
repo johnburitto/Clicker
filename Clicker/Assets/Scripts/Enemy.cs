@@ -6,7 +6,9 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField]
     private double _health;
+    [SerializeField]
     private double _enemyLvl;
+    [SerializeField]
     private double _healthScale;
 
     public double Health
@@ -27,7 +29,8 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         _healthScale = _health;
-        _enemyLvl = 1;
+        GlobalEventManager.OnEnemyKilled.AddListener(UpdateLvl);
+        GlobalEventManager.OnEnemyKilled.AddListener(GenerateNewHP);
     }
 
     void Update()
@@ -69,5 +72,12 @@ public class Enemy : MonoBehaviour
     {
         _health = Random.Range((int)_healthScale, 2 * (int)_healthScale) * _enemyLvl;
         _healthScale = _health;
+    }
+
+    public void LoadData(Save.EnemySaveData enemy)
+    {
+        _health = enemy.Health;
+        _enemyLvl = enemy.EnemyLvl;
+        _healthScale = enemy.HealthScale;
     }
 }

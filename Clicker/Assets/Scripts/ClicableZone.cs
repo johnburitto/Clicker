@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class ClicableZone : MonoBehaviour
 {
+    [SerializeField]
     private List<Hero> _heroes;
+    [SerializeField]
     private Enemy _enemy;
     private ElementalCoef _elementalCoef;
 
     public List<Hero> Heroes
     {
+        get { return _heroes; }
         set { _heroes = value; }
     }
 
@@ -21,6 +24,7 @@ public class ClicableZone : MonoBehaviour
     void Start()
     {
         _elementalCoef = new ElementalCoef();
+        GlobalEventManager.LoadGame.Invoke();
     }
 
     void Update()
@@ -32,9 +36,9 @@ public class ClicableZone : MonoBehaviour
     {
         if (_enemy.GetDamage(_heroes, _elementalCoef) <= 0)
         {
-            _enemy.UpdateLvl();
             Hero.UpdateAllHeroes(_heroes);
-            _enemy.GenerateNewHP();
+            GlobalEventManager.OnEnemyKilled.Invoke();
+            GlobalEventManager.SaveGame.Invoke();
         }
     }
 }
