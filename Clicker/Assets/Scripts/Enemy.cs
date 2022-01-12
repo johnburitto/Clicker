@@ -70,6 +70,7 @@ public class Enemy : MonoBehaviour
 
     public void GenerateNewHP()
     {
+        Wallet.Instance.AddCash(_healthScale * 1.5);
         _health = Random.Range((int)_healthScale, 2 * (int)_healthScale) * _enemyLvl;
         _healthScale = _health;
     }
