@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,11 +44,6 @@ public class Hero : MonoBehaviour
     {
         _heroLvl = 0;
         _damage = _weapon.WeaponDamage;
-    }
-    
-    void Update()
-    {
-        
     }
 
     public void UpdateStats()

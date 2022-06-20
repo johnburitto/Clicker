@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,11 +32,6 @@ public class Enemy : MonoBehaviour
         GlobalEventManager.OnEnemyKilled.AddListener(GenerateNewHP);
     }
 
-    void Update()
-    {
-        
-    }
-
     public void UpdateLvl()
     {
         _enemyLvl += 0.1;
@@ -53,9 +47,9 @@ public class Enemy : MonoBehaviour
 
     private void GetCommonDamage(List<Hero> heroes)
     {
-        for (int i = 0; i < heroes.Count; i++)
+        foreach (Hero hero in heroes)
         {
-            _health -= heroes[i].Damage;
+            _health -= hero.Damage;
         }
     }
 
@@ -70,7 +64,6 @@ public class Enemy : MonoBehaviour
 
     public void GenerateNewHP()
     {
-        Wallet.Instance.AddCash(_healthScale * 1.5);
         _health = Random.Range((int)_healthScale, 2 * (int)_healthScale) * _enemyLvl;
         _healthScale = _health;
     }
@@ -80,5 +73,11 @@ public class Enemy : MonoBehaviour
         _health = enemy.Health;
         _enemyLvl = enemy.EnemyLvl;
         _healthScale = enemy.HealthScale;
+    }
+
+    public void OnDestroy()
+    {
+        GlobalEventManager.OnEnemyKilled.RemoveListener(UpdateLvl);
+        GlobalEventManager.OnEnemyKilled.RemoveListener(GenerateNewHP);
     }
 }

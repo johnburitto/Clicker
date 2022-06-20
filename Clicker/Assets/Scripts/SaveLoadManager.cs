@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
@@ -28,7 +27,8 @@ public class SaveLoadManager : MonoBehaviour
         Save save = new Save();
 
         save.SaveEnemy(Enemy);
-        
+        save.SaveWallet(Wallet.Instance.Cash);
+
         foreach (var hero in Heroes)
         {
             save.SaveWeapon(hero.gameObject.GetComponent<Hero>().Weapon);
@@ -52,10 +52,10 @@ public class SaveLoadManager : MonoBehaviour
 
         BinaryFormatter bf = new BinaryFormatter();
         FileStream fs = new FileStream(filePath, FileMode.Open);
-
         Save save = (Save)bf.Deserialize(fs);
 
         Enemy.gameObject.GetComponent<Enemy>().LoadData(save.Enemy);
+        Wallet.Instance.AddCash(save.Cash);
 
         for (int i = 0; i < save.Weapons.Count; i++)
         {
@@ -68,6 +68,12 @@ public class SaveLoadManager : MonoBehaviour
         }
 
         fs.Close();
+    }
+
+    public void OnDestroy()
+    {
+        GlobalEventManager.SaveGame.RemoveListener(SaveGame);
+        GlobalEventManager.LoadGame.RemoveListener(LoadGame);
     }
 }
 
@@ -120,6 +126,7 @@ public class Save
     public EnemySaveData Enemy;
     public List<WeaponSaveData> Weapons = new List<WeaponSaveData>();
     public List<HeroSaveData> Heroes = new List<HeroSaveData>();
+    public double Cash;
 
     public void SaveEnemy(GameObject enemy)
     {
@@ -142,5 +149,10 @@ public class Save
                                     (int)hero.gameObject.GetComponent<Hero>().HeroElement,
                                     hero.gameObject.GetComponent<Hero>().HeroLvl,
                                     hero.gameObject.GetComponent<Hero>().Damage));
+    }
+
+    public void SaveWallet(double cash)
+    {
+        Cash = cash;
     }
 }

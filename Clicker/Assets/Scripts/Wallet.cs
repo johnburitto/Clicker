@@ -1,22 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Wallet : MonoBehaviour
 {
     [SerializeField]
     private double _cash;
-
     public static Wallet Instance;
 
-    void Start()
+    public double Cash
     {
-        Instance = this;
+        get { return _cash; }
     }
 
-    void Update()
+    void Awake()
     {
-        
+        Instance = this;
     }
 
     public void AddCash(double cashToAdd)
