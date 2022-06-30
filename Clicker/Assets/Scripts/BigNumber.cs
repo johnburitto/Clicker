@@ -57,26 +57,31 @@ public class BigNumber
 
     public static BigNumber ValueOf(double number, NumberScale numberScale)
     {
-        while (number >= 1000)
+        if (number < 0)
         {
-            number /= 1000d;
-            numberScale += 1;
+            throw new Exception("Sorry, BigNumbers works only with positive");
         }
 
-        return new BigNumber(number, numberScale);
+        BigNumber newBigNumber = new BigNumber(number, numberScale);
+
+        scaleToLess(newBigNumber);
+
+        return newBigNumber;
     }
 
     public static BigNumber ValueOf(double number)
     {
-        NumberScale numberScale = global::NumberScale.Units;
-
-        while (number >= 1000)
+        if (number < 0)
         {
-            number /= 1000d;
-            numberScale += 1;
+            throw new Exception("Sorry, BigNumbers works only with positive");
         }
 
-        return new BigNumber(number, numberScale);
+
+        BigNumber newBigNumber = new BigNumber(number, global::NumberScale.Units);
+
+        scaleToLess(newBigNumber);
+
+        return newBigNumber;
     }
 
     public static BigNumber ValueOf(BigNumber number)
@@ -92,46 +97,6 @@ public class BigNumber
         }
 
         return (_number * 1000d).ToString() + Zeros;
-    }
-
-    public override string ToString()
-    {
-        return $"{_number} {_numberScale}";
-    }
-
-    public static BigNumber operator + (BigNumber left, BigNumber right)
-    {
-        BigNumber newNumber = ValueOf(left);
-        BigNumber numberToAdd = ScaleTo(right, left._numberScale);
-
-        newNumber._number += numberToAdd._number;
-
-        scaleToLess(newNumber);
-
-        return newNumber;
-    }
-    
-    public static BigNumber operator - (BigNumber left, BigNumber right)
-    {
-        BigNumber newNumber = ValueOf(left);
-        BigNumber numberToAdd = ScaleTo(right, left._numberScale);
-
-        newNumber._number -= numberToAdd._number;
-
-        scaleToUpper(newNumber);
-
-        return newNumber;
-    }
-
-    public static BigNumber operator * (BigNumber left, double right)
-    {
-        BigNumber newNumber = ValueOf(left);
-
-        newNumber._number *= right;
-
-        scaleToLess(newNumber);
-
-        return newNumber;
     }
 
     public static BigNumber ScaleTo(BigNumber number, NumberScale newNumberScale)
@@ -169,6 +134,153 @@ public class BigNumber
             number._numberScale -= 1;
         }
     }
+
+    public override bool Equals(object obj)
+    {
+        return base.Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+
+    public override string ToString()
+    {
+        return $"{_number} {_numberScale}";
+    }
+
+    public static BigNumber operator + (BigNumber left, BigNumber right)
+    {
+        BigNumber newNumber = ValueOf(left);
+        BigNumber numberToAdd = ScaleTo(right, left._numberScale);
+
+        newNumber._number += numberToAdd._number;
+        scaleToLess(newNumber);
+
+        return newNumber;
+    }
+    
+    public static BigNumber operator - (BigNumber left, BigNumber right)
+    {
+        BigNumber newNumber = ValueOf(left);
+        BigNumber numberToAdd = ScaleTo(right, left._numberScale);
+
+        newNumber._number -= numberToAdd._number;
+        scaleToUpper(newNumber);
+
+        return newNumber;
+    }
+
+    public static BigNumber operator * (BigNumber left, double right)
+    {
+        if (right < 0)
+        {
+            throw new Exception("Sorry, BigNumbers works only with positive");
+        }
+
+        BigNumber newNumber = ValueOf(left);
+
+        newNumber._number *= right;
+        scaleToLess(newNumber);
+
+        return newNumber;
+    }
+
+    public static BigNumber operator / (BigNumber left, double right)
+    {
+        if (right == 0)
+        {
+            throw new Exception("You cant divsion on 0");
+        }
+
+        BigNumber newNumber = ValueOf(left);
+
+        newNumber._number /= right;
+        scaleToUpper(newNumber);
+
+        return newNumber;
+    }
+
+    public static bool operator <(BigNumber left, BigNumber right)
+    {
+        return (left._number < right._number && left._numberScale == right._numberScale) || 
+               (left._numberScale < right._numberScale);
+    }
+    
+    public static bool operator >(BigNumber left, BigNumber right)
+    {
+        return (left._number > right._number && left._numberScale == right._numberScale) || 
+               (left._numberScale > right._numberScale);
+    }
+    
+    public static bool operator <(BigNumber left, double right)
+    {
+        BigNumber compareWith = ValueOf(right);
+
+        return (left._number < compareWith._number && left._numberScale == compareWith._numberScale) || 
+               (left._numberScale < compareWith._numberScale);
+    }
+    
+    public static bool operator >(BigNumber left, double right)
+    {
+        BigNumber compareWith = ValueOf(right);
+
+        return (left._number > compareWith._number && left._numberScale == compareWith._numberScale) || 
+               (left._numberScale > compareWith._numberScale);
+    }    
+    
+    public static bool operator <=(BigNumber left, BigNumber right)
+    {
+        return (left._number <= right._number && left._numberScale == right._numberScale) || 
+               (left._numberScale < right._numberScale);
+    }
+    
+    public static bool operator >=(BigNumber left, BigNumber right)
+    {
+        return (left._number >= right._number && left._numberScale == right._numberScale) || 
+               (left._numberScale > right._numberScale);
+    }
+    
+    public static bool operator <=(BigNumber left, double right)
+    {
+        BigNumber compareWith = ValueOf(right);
+
+        return (left._number <= compareWith._number && left._numberScale == compareWith._numberScale) || 
+               (left._numberScale < compareWith._numberScale);
+    }
+    
+    public static bool operator >=(BigNumber left, double right)
+    {
+        BigNumber compareWith = ValueOf(right);
+
+        return (left._number >= compareWith._number && left._numberScale == compareWith._numberScale) || 
+               (left._numberScale > compareWith._numberScale);
+    }
+    
+    public static bool operator ==(BigNumber left, BigNumber right)
+    {
+        return left._number == right._number && left._numberScale == right._numberScale;
+    }
+
+    public static bool operator !=(BigNumber left, BigNumber right)
+    {
+        return left._number != right._number || left._numberScale != right._numberScale;
+    }
+    
+    public static bool operator ==(BigNumber left, double right)
+    {
+        BigNumber compareWith = ValueOf(right);
+
+        return left._number == compareWith._number && left._numberScale == compareWith._numberScale;
+    }
+
+    public static bool operator !=(BigNumber left, double right)
+    {
+        BigNumber compareWith = ValueOf(right);
+
+        return left._number != compareWith._number || left._numberScale != compareWith._numberScale;
+    }
 }
 
 public enum NumberScale
@@ -178,5 +290,21 @@ public enum NumberScale
     Millions,
     Billions,
     Trillions,
-    Quadrillions
+    Quadrillions,
+    Quintillion,
+    Sextillion, // Тригер для Прохорова :)
+    Septillion,
+    Octillion,
+    Nonillion,
+    Decillion,
+    Undecillion,
+    Duodecillion,
+    Tredecillion,
+    Quattuordecillion,
+    Quindecillion,
+    Sexdecillion, // Ще один :)
+    Septendecillion,
+    Octodecillion,
+    Novemdecillion,
+    Vigintillion
 }
