@@ -20,7 +20,7 @@ public class ClicableZone : MonoBehaviour
         set { _enemy = value; }
     }
 
-    void Start()
+    private void Start()
     {
         _elementalCoef = ElementalCoef.Init;
         GlobalEventManager.LoadGame.Invoke();
@@ -28,13 +28,15 @@ public class ClicableZone : MonoBehaviour
 
     public void OnClick()
     {
-        if (_enemy.GetDamage(_heroes, _elementalCoef) <= 0)
+        if (_enemy.GetDamage(_heroes, _elementalCoef))
         {
             Hero.UpdateAllHeroes(_heroes);
-            Wallet.Instance.AddCash(_enemy.HealthScale * 1.5);
-            GlobalEventManager.OnEnemyKilled.Invoke();
+            Wallet.Instance.AddCash(100);
+            GlobalEventManager.OnEnemyKilled.Invoke(); 
             GlobalEventManager.SaveGame.Invoke();
         }
+
+        Debug.Log("Enemy health => " + _enemy.Health);
     }
 
     public void OnDestroy()

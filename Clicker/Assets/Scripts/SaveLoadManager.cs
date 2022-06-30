@@ -83,27 +83,33 @@ public class Save
     [System.Serializable]
     public struct EnemySaveData
     {
-        public double Health, EnemyLvl, HealthScale;
+        public int HealthScale, PreviousHealthScale;
+        public double HealthNumber, EnemyLvl, PreviousHealthNumber;
 
-        public EnemySaveData(double health, double enemyLvl, double healthScale)
+        public EnemySaveData(double healthNumber, int healthScale, double previousHealthNumber, 
+                             int previousHealthScale, double enemyLvl)
         {
-            Health = health;
-            EnemyLvl = enemyLvl;
+            HealthNumber = healthNumber;
             HealthScale = healthScale;
+            PreviousHealthNumber = previousHealthNumber;
+            PreviousHealthScale = previousHealthScale;
+            EnemyLvl = enemyLvl;
         }
     }
 
     [System.Serializable]
     public struct WeaponSaveData
     {
-        public int WeaponRare, HeroType;
-        public double WeaponDamage, WeaponLvl;
+        public int WeaponRare, HeroType, WeaponDamageScale;
+        public double WeaponDamageNumber, WeaponLvl;
 
-        public WeaponSaveData(int weaponRare, int heroType, double weaponDamage, double weaponLvl)
+        public WeaponSaveData(int weaponRare, int heroType, double weaponDamageNumber, 
+                              int weaponDamageScale, double weaponLvl)
         {
             WeaponRare = weaponRare;
             HeroType = heroType;
-            WeaponDamage = weaponDamage;
+            WeaponDamageNumber = weaponDamageNumber;
+            WeaponDamageScale = weaponDamageScale;
             WeaponLvl = weaponLvl;
         }
     }
@@ -111,15 +117,16 @@ public class Save
     [System.Serializable]
     public struct HeroSaveData
     {
-        public int HeroType, HeroElement, HeroLvl;
-        public double Damage;
+        public int HeroType, HeroElement, HeroLvl, DamageScale;
+        public double DamageNumber;
 
-        public HeroSaveData(int heroType, int heroElement, int heroLvl, double damage)
+        public HeroSaveData(int heroType, int heroElement, int heroLvl, double damageNumber, int damageScale)
         {
             HeroType = heroType;
             HeroElement = heroElement;
             HeroLvl = heroLvl;
-            Damage = damage;
+            DamageNumber = damageNumber;
+            DamageScale = damageScale;
         }
     }
 
@@ -130,25 +137,33 @@ public class Save
 
     public void SaveEnemy(GameObject enemy)
     {
-        Enemy = new EnemySaveData(enemy.gameObject.GetComponent<Enemy>().Health,
-                                  enemy.gameObject.GetComponent<Enemy>().EnemyLvl,
-                                  enemy.gameObject.GetComponent<Enemy>().HealthScale);
+        Enemy currentEnemy = enemy.gameObject.GetComponent<Enemy>();
+
+        Enemy = new EnemySaveData(currentEnemy.Health.Number,
+                                  currentEnemy.Health.NumberScale,
+                                  currentEnemy.PreviousHealth.Number,
+                                  currentEnemy.PreviousHealth.NumberScale,
+                                  currentEnemy.EnemyLvl);
     }
 
     public void SaveWeapon(Weapon weapon)
     {
         Weapons.Add(new WeaponSaveData((int)weapon.WeaponRare,
                                        (int)weapon.HeroType,
-                                       weapon.WeaponDamage,
+                                       weapon.WeaponDamage.Number,
+                                       weapon.WeaponDamage.NumberScale,
                                        weapon.WeaponLvl));
     }
 
     public void SaveHero(GameObject hero)
     {
-        Heroes.Add(new HeroSaveData((int)hero.gameObject.GetComponent<Hero>().HeroType,
-                                    (int)hero.gameObject.GetComponent<Hero>().HeroElement,
-                                    hero.gameObject.GetComponent<Hero>().HeroLvl,
-                                    hero.gameObject.GetComponent<Hero>().Damage));
+        Hero currentHero = hero.gameObject.GetComponent<Hero>();
+
+        Heroes.Add(new HeroSaveData((int)currentHero.HeroType,
+                                    (int)currentHero.HeroElement,
+                                    currentHero.HeroLvl,
+                                    currentHero.Damage.Number,
+                                    currentHero.Damage.NumberScale));
     }
 
     public void SaveWallet(double cash)

@@ -8,7 +8,7 @@ public class Hero : MonoBehaviour
     [SerializeField]
     private HeroElement _heroElement = HeroElement.None;
     [SerializeField]
-    private double _damage;
+    private BigNumber _damage;
     [SerializeField]
     private Weapon _weapon;
     private int _heroLvl;
@@ -23,7 +23,7 @@ public class Hero : MonoBehaviour
         get { return _heroElement; }
     }
 
-    public double Damage
+    public BigNumber Damage
     {
         get { return _damage; }
         set { _damage = value; }
@@ -43,7 +43,7 @@ public class Hero : MonoBehaviour
     void Start()
     {
         _heroLvl = 0;
-        _damage = _weapon.WeaponDamage;
+        _damage = BigNumber.ValueOf(_weapon.WeaponDamage);
     }
 
     public void UpdateStats()
@@ -66,7 +66,7 @@ public class Hero : MonoBehaviour
         _heroType = (HeroType)hero.HeroType;
         _heroElement = (HeroElement)hero.HeroElement;
         _heroLvl = hero.HeroLvl;
-        _damage = hero.Damage;
+        _damage = BigNumber.ValueOf(hero.DamageNumber, (NumberScale)hero.DamageScale);
     }
 }
 

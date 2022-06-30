@@ -7,7 +7,7 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     private HeroType _heroType = HeroType.None;
     [SerializeField]
-    private double _weaponDamage;
+    private BigNumber _weaponDamage;
     [SerializeField]
     private double _weaponLvl;
 
@@ -21,7 +21,7 @@ public class Weapon : MonoBehaviour
         get { return _heroType; }
     }
 
-    public double WeaponDamage
+    public BigNumber WeaponDamage
     {
         get { return _weaponDamage; }
     }
@@ -33,13 +33,8 @@ public class Weapon : MonoBehaviour
 
     void Start()
     {
-        _weaponDamage = (int)_weaponRare * 1.25;
+        _weaponDamage = BigNumber.ValueOf((double)_weaponRare * 1.25);
         _weaponLvl = 0;
-    }
-
-    void Update()
-    {
-        
     }
 
     public void UpdateWeapon()
@@ -52,7 +47,7 @@ public class Weapon : MonoBehaviour
     {
         _weaponRare = (WeaponRare)weapon.WeaponRare;
         _heroType = (HeroType)weapon.HeroType;
-        _weaponDamage = weapon.WeaponDamage;
+        _weaponDamage = BigNumber.ValueOf(weapon.WeaponDamageNumber, (NumberScale)weapon.WeaponDamageScale);
         _weaponLvl = weapon.WeaponLvl;
     }
 }
