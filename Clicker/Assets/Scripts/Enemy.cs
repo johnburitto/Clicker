@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField]
     private BigNumber _health = BigNumber.ValueOf(100);
     [SerializeField]
     private double _enemyLvl;

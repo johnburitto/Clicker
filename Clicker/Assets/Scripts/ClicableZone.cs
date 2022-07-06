@@ -24,7 +24,6 @@ public class ClicableZone : MonoBehaviour
     {
         _elementalCoef = ElementalCoef.Init;
         GlobalEventManager.LoadGame.Invoke();
-        Debug.Log(BigNumber.ValueOf(1000) / 0);
     }
 
     public void OnClick()

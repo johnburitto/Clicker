@@ -1,9 +1,13 @@
 using System;
 using System.Linq;
+using UnityEngine;
 
+[Serializable]
 public class BigNumber
 {
+    [SerializeField]
     private double _number;
+    [SerializeField]
     private NumberScale _numberScale;
     private const string TRIPLE_ZERO = "000";
 
@@ -283,6 +287,7 @@ public class BigNumber
     }
 }
 
+[Serializable]
 public enum NumberScale
 {
     Units,
