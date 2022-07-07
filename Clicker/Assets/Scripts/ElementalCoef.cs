@@ -2,19 +2,18 @@ using System.Collections.Generic;
 
 public class ElementalCoef
 {
-    public List<List<double>> ElementalCoefM;
+    public List<List<float>> _elementalCoefMatrix;
 
-    public static ElementalCoef Init
-    {
-        get { return new ElementalCoef(); }
-    }
+    public static ElementalCoef Init => new ElementalCoef();
+
+    public float this[int i, int j] => _elementalCoefMatrix[i][j];
 
     public ElementalCoef()
     {
-        ElementalCoefM = new List<List<double>>() { 
-                                                    new List<double> { 0, 1.25, 1.75, 1.25 },
-                                                    new List<double> { 1.25, 0, 1.25, 1.25 },
-                                                    new List<double> { 1.75, 1.25, 0, 1.50 },
-                                                    new List<double> { 1.25, 1.25, 1.50, 0 } };
+        _elementalCoefMatrix = new List<List<float>>() { 
+                                                    new List<float> { 0, 1.25f, 1.75f, 1.25f },
+                                                    new List<float> { 1.25f, 0, 1.25f, 1.25f },
+                                                    new List<float> { 1.75f, 1.25f, 0, 1.50f },
+                                                    new List<float> { 1.25f, 1.25f, 1.50f, 0 } };
     }
 }

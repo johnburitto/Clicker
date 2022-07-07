@@ -2,44 +2,28 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    [SerializeField]
-    private WeaponRare _weaponRare = WeaponRare.None;
-    [SerializeField]
-    private HeroType _heroType = HeroType.None;
-    [SerializeField]
-    private BigNumber _weaponDamage;
-    [SerializeField]
-    private double _weaponLvl;
+    [SerializeField] private WeaponRare _weaponRare = WeaponRare.None;
+    [SerializeField] private HeroType _heroType = HeroType.None;
+    [SerializeField] private BigNumber _weaponDamage;
+    [SerializeField] private float _weaponLvl;
 
-    public WeaponRare WeaponRare
-    {
-        get { return _weaponRare; }
-    }
+    public WeaponRare WeaponRare => _weaponRare;
 
-    public HeroType HeroType
-    {
-        get { return _heroType; }
-    }
+    public HeroType HeroType => _heroType;
 
-    public BigNumber WeaponDamage
-    {
-        get { return _weaponDamage; }
-    }
+    public BigNumber WeaponDamage => _weaponDamage;
 
-    public double WeaponLvl
-    {
-        get { return _weaponLvl; }
-    }
+    public float WeaponLvl => _weaponLvl;
 
-    void Start()
+    private void Start()
     {
-        _weaponDamage = BigNumber.ValueOf((double)_weaponRare * 1.25);
+        _weaponDamage = BigNumber.ValueOf((float)_weaponRare * 1.25f);
         _weaponLvl = 0;
     }
 
     public void UpdateWeapon()
     {
-        _weaponLvl += 0.05;
+        _weaponLvl += 0.05f;
         _weaponDamage += _weaponDamage * _weaponLvl;
     }
 

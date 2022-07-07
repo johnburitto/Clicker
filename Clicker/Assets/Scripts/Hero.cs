@@ -3,46 +3,24 @@ using UnityEngine;
 
 public class Hero : MonoBehaviour
 {
-    [SerializeField]
-    private HeroType _heroType = HeroType.None;
-    [SerializeField]
-    private HeroElement _heroElement = HeroElement.None;
-    [SerializeField]
-    private BigNumber _damage;
-    [SerializeField]
-    private Weapon _weapon;
-    private int _heroLvl;
+    [SerializeField] private HeroType _heroType;
+    [SerializeField] private HeroElement _heroElement;
+    [SerializeField] private BigNumber _damage;
+    [SerializeField] private Weapon _weapon;
+    [SerializeField] private int _heroLvl;
 
-    public HeroType HeroType
-    {
-        get { return _heroType; }
-    }
+    public HeroType HeroType => _heroType;
 
-    public HeroElement HeroElement
-    {
-        get { return _heroElement; }
-    }
+    public HeroElement HeroElement => _heroElement;
 
-    public BigNumber Damage
-    {
-        get { return _damage; }
-        set { _damage = value; }
-    }
+    public BigNumber Damage => _damage;
 
-    public Weapon Weapon
-    {
-        get { return _weapon; }
-        set { _weapon = value; }
-    }
+    public Weapon Weapon => _weapon;
 
-    public int HeroLvl
-    {
-        get { return _heroLvl; }
-    }
+    public int HeroLvl => _heroLvl;
 
-    void Start()
+    private void Start()
     {
-        _heroLvl = 0;
         _damage = BigNumber.ValueOf(_weapon.WeaponDamage);
     }
 
@@ -50,15 +28,6 @@ public class Hero : MonoBehaviour
     {
         _heroLvl++;
         _damage += _weapon.WeaponDamage * _heroLvl;
-    }
-
-    public static void UpdateAllHeroes(List<Hero> heroes)
-    {
-        foreach (Hero hero in heroes)
-        {
-            hero.Weapon.UpdateWeapon();
-            hero.UpdateStats();
-        }
     }
 
     public void LoadData(Save.HeroSaveData hero)

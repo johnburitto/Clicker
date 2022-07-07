@@ -3,29 +3,18 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField]
-    private BigNumber _health = BigNumber.ValueOf(100);
-    [SerializeField]
-    private double _enemyLvl;
-    [SerializeField]
-    private BigNumber _previousHealth = BigNumber.ValueOf(100);
+    [SerializeField] private BigNumber _health = BigNumber.ValueOf(100f);
+    [SerializeField] private float _enemyLvl;
+    
+    private BigNumber _previousHealth = BigNumber.ValueOf(100f);
 
-    public BigNumber Health
-    {
-        get { return _health; }
-    }
+    public BigNumber Health => _health;
 
-    public double EnemyLvl
-    {
-        get { return _enemyLvl; }
-    }
+    public float EnemyLvl => _enemyLvl;
 
-    public BigNumber PreviousHealth
-    {
-        get { return _previousHealth; }
-    }
+    public BigNumber PreviousHealth => _previousHealth;
 
-    void Start()
+    private void Start()
     {
         GlobalEventManager.OnEnemyKilled.AddListener(UpdateLvl);
         GlobalEventManager.OnEnemyKilled.AddListener(GenerateNewHP);
@@ -33,7 +22,7 @@ public class Enemy : MonoBehaviour
 
     public void UpdateLvl()
     {
-        _enemyLvl += 0.1;
+        _enemyLvl += 0.1f;
     }
 
     public bool GetDamage(List<Hero> heroes, ElementalCoef elementalCoef)
@@ -57,13 +46,13 @@ public class Enemy : MonoBehaviour
         for (int i = 0; i < heroes.Count - 1; i++)
         {
             _health -= ((heroes[i].Damage + heroes[i + 1].Damage) 
-                * elementalCoef.ElementalCoefM[(int)heroes[i].HeroElement][(int)heroes[i + 1].HeroElement]);
+                * elementalCoef[(int)heroes[i].HeroElement, (int)heroes[i + 1].HeroElement]);
         }
     }
 
     public void GenerateNewHP()
     {
-        _health = _previousHealth * 1.5;
+        _health = _previousHealth * 1.5f;
         _previousHealth = _health;
     }
 
@@ -74,7 +63,7 @@ public class Enemy : MonoBehaviour
         _enemyLvl = enemy.EnemyLvl;
     }
 
-    public void OnDestroy()
+    private void OnDestroy()
     {
         GlobalEventManager.OnEnemyKilled.RemoveListener(UpdateLvl);
         GlobalEventManager.OnEnemyKilled.RemoveListener(GenerateNewHP);

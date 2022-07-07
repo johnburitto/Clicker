@@ -84,10 +84,10 @@ public class Save
     public struct EnemySaveData
     {
         public int HealthScale, PreviousHealthScale;
-        public double HealthNumber, EnemyLvl, PreviousHealthNumber;
+        public float HealthNumber, EnemyLvl, PreviousHealthNumber;
 
-        public EnemySaveData(double healthNumber, int healthScale, double previousHealthNumber, 
-                             int previousHealthScale, double enemyLvl)
+        public EnemySaveData(float healthNumber, int healthScale, float previousHealthNumber, 
+                             int previousHealthScale, float enemyLvl)
         {
             HealthNumber = healthNumber;
             HealthScale = healthScale;
@@ -101,10 +101,10 @@ public class Save
     public struct WeaponSaveData
     {
         public int WeaponRare, HeroType, WeaponDamageScale;
-        public double WeaponDamageNumber, WeaponLvl;
+        public float WeaponDamageNumber, WeaponLvl;
 
-        public WeaponSaveData(int weaponRare, int heroType, double weaponDamageNumber, 
-                              int weaponDamageScale, double weaponLvl)
+        public WeaponSaveData(int weaponRare, int heroType, float weaponDamageNumber, 
+                              int weaponDamageScale, float weaponLvl)
         {
             WeaponRare = weaponRare;
             HeroType = heroType;
@@ -118,9 +118,9 @@ public class Save
     public struct HeroSaveData
     {
         public int HeroType, HeroElement, HeroLvl, DamageScale;
-        public double DamageNumber;
+        public float DamageNumber;
 
-        public HeroSaveData(int heroType, int heroElement, int heroLvl, double damageNumber, int damageScale)
+        public HeroSaveData(int heroType, int heroElement, int heroLvl, float damageNumber, int damageScale)
         {
             HeroType = heroType;
             HeroElement = heroElement;
@@ -133,7 +133,7 @@ public class Save
     public EnemySaveData Enemy;
     public List<WeaponSaveData> Weapons = new List<WeaponSaveData>();
     public List<HeroSaveData> Heroes = new List<HeroSaveData>();
-    public double Cash;
+    public float Cash;
 
     public void SaveEnemy(GameObject enemy)
     {
@@ -166,7 +166,7 @@ public class Save
                                     currentHero.Damage.NumberScale));
     }
 
-    public void SaveWallet(double cash)
+    public void SaveWallet(float cash)
     {
         Cash = cash;
     }

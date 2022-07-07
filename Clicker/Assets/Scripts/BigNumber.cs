@@ -1,17 +1,16 @@
+using Assets.Extensions;
 using System;
-using System.Linq;
 using UnityEngine;
 
 [Serializable]
-public class BigNumber
+public class BigNumber: IEquatable<BigNumber>, IEquatable<float>
 {
-    [SerializeField]
-    private double _number;
-    [SerializeField]
-    private NumberScale _numberScale;
+    [SerializeField] private float _number;
+    [SerializeField] private NumberScale _numberScale;
+
     private const string TRIPLE_ZERO = "000";
 
-    public double Number
+    public float Number
     {
         get { return _number; }
     }
@@ -43,9 +42,8 @@ public class BigNumber
 
     private string Zeros
     {
-        get { return string.Concat(Enumerable.Repeat(TRIPLE_ZERO, (int)_numberScale - 1)); }
+        get { return TRIPLE_ZERO.Repeat((int)_numberScale - 1); }
     }
-
 
     private BigNumber()
     {
@@ -53,13 +51,13 @@ public class BigNumber
         _numberScale = global::NumberScale.Units;
     }
 
-    private BigNumber(double number, NumberScale numberScale)
+    private BigNumber(float number, NumberScale numberScale)
     {
         _number = number;
         _numberScale = numberScale;
     }
 
-    public static BigNumber ValueOf(double number, NumberScale numberScale)
+    public static BigNumber ValueOf(float number, NumberScale numberScale)
     {
         if (number < 0)
         {
@@ -73,7 +71,7 @@ public class BigNumber
         return newBigNumber;
     }
 
-    public static BigNumber ValueOf(double number)
+    public static BigNumber ValueOf(float number)
     {
         if (number < 0)
         {
@@ -100,14 +98,14 @@ public class BigNumber
             return _number.ToString();
         }
 
-        return (_number * 1000d).ToString() + Zeros;
+        return (Math.Round(_number, 3) * 1000f).ToString() + Zeros;
     }
 
     public static BigNumber ScaleTo(BigNumber number, NumberScale newNumberScale)
     {
         BigNumber newNumber = ValueOf(number);
 
-        newNumber._number *= Math.Pow(1000, newNumber._numberScale - newNumberScale);
+        newNumber._number *= (float)Math.Pow(1000, newNumber._numberScale - newNumberScale);
         newNumber._numberScale = newNumberScale;
 
         return newNumber;
@@ -144,6 +142,16 @@ public class BigNumber
         return base.Equals(obj);
     }
 
+    public bool Equals(BigNumber other)
+    {
+        return this == other;
+    }
+
+    public bool Equals(float other)
+    {
+        return this == ValueOf(other);
+    }
+
     public override int GetHashCode()
     {
         return base.GetHashCode();
@@ -176,7 +184,7 @@ public class BigNumber
         return newNumber;
     }
 
-    public static BigNumber operator * (BigNumber left, double right)
+    public static BigNumber operator * (BigNumber left, float right)
     {
         if (right < 0)
         {
@@ -191,7 +199,7 @@ public class BigNumber
         return newNumber;
     }
 
-    public static BigNumber operator / (BigNumber left, double right)
+    public static BigNumber operator / (BigNumber left, float right)
     {
         if (right == 0)
         {
@@ -218,7 +226,7 @@ public class BigNumber
                (left._numberScale > right._numberScale);
     }
     
-    public static bool operator <(BigNumber left, double right)
+    public static bool operator <(BigNumber left, float right)
     {
         BigNumber compareWith = ValueOf(right);
 
@@ -226,7 +234,7 @@ public class BigNumber
                (left._numberScale < compareWith._numberScale);
     }
     
-    public static bool operator >(BigNumber left, double right)
+    public static bool operator >(BigNumber left, float right)
     {
         BigNumber compareWith = ValueOf(right);
 
@@ -246,7 +254,7 @@ public class BigNumber
                (left._numberScale > right._numberScale);
     }
     
-    public static bool operator <=(BigNumber left, double right)
+    public static bool operator <=(BigNumber left, float right)
     {
         BigNumber compareWith = ValueOf(right);
 
@@ -254,7 +262,7 @@ public class BigNumber
                (left._numberScale < compareWith._numberScale);
     }
     
-    public static bool operator >=(BigNumber left, double right)
+    public static bool operator >=(BigNumber left, float right)
     {
         BigNumber compareWith = ValueOf(right);
 
@@ -272,14 +280,14 @@ public class BigNumber
         return left._number != right._number || left._numberScale != right._numberScale;
     }
     
-    public static bool operator ==(BigNumber left, double right)
+    public static bool operator ==(BigNumber left, float right)
     {
         BigNumber compareWith = ValueOf(right);
 
         return left._number == compareWith._number && left._numberScale == compareWith._numberScale;
     }
 
-    public static bool operator !=(BigNumber left, double right)
+    public static bool operator !=(BigNumber left, float right)
     {
         BigNumber compareWith = ValueOf(right);
 
@@ -287,7 +295,6 @@ public class BigNumber
     }
 }
 
-[Serializable]
 public enum NumberScale
 {
     Units,

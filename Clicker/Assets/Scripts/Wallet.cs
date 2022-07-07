@@ -2,21 +2,18 @@ using UnityEngine;
 
 public class Wallet : MonoBehaviour
 {
-    [SerializeField]
-    private double _cash;
+    [SerializeField] private float _cash;
+
     public static Wallet Instance;
 
-    public double Cash
-    {
-        get { return _cash; }
-    }
+    public float Cash => _cash;
 
-    void Awake()
+    private void Awake()
     {
         Instance = this;
     }
 
-    public void AddCash(double cashToAdd)
+    public void AddCash(float cashToAdd)
     {
         _cash += cashToAdd;
     }
