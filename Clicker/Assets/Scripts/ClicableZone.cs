@@ -19,17 +19,19 @@ public class ClicableZone : MonoBehaviour
 
     public void OnClick()
     {
+        GetComponent<SpriteRenderer>().color = Color.red;
         if (_enemy.GetDamage(_heroes, _elementalCoef))
         {
             Wallet.Instance.AddCash(100);
             GlobalEventManager.OnEnemyKilled.Invoke(); 
             GlobalEventManager.SaveGame.Invoke();
+            GetComponent<SpriteRenderer>().color = Color.green;
         }
 
         Debug.Log("Enemy health => " + _enemy.Health);
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         GlobalEventManager.SaveGame.Invoke();   
     }

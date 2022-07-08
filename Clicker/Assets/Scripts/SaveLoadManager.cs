@@ -9,6 +9,12 @@ public class SaveLoadManager : MonoBehaviour
     public GameObject Enemy;
     public List<GameObject> Heroes;
 
+    private void OnEnable()
+    {
+        GlobalEventManager.SaveGame.AddListener(SaveGame);
+        GlobalEventManager.LoadGame.AddListener(LoadGame);
+    }
+
     private void Start()
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -16,8 +22,6 @@ public class SaveLoadManager : MonoBehaviour
 #else
         filePath = Path.Combine(Application.dataPath, "save.gamesave");
 #endif
-        GlobalEventManager.SaveGame.AddListener(SaveGame);
-        GlobalEventManager.LoadGame.AddListener(LoadGame);
     }
 
     public void SaveGame() 
@@ -70,7 +74,7 @@ public class SaveLoadManager : MonoBehaviour
         fs.Close();
     }
 
-    public void OnDestroy()
+    public void OnDisable()
     {
         GlobalEventManager.SaveGame.RemoveListener(SaveGame);
         GlobalEventManager.LoadGame.RemoveListener(LoadGame);

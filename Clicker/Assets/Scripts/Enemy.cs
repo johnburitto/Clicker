@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
 
     public BigNumber PreviousHealth => _previousHealth;
 
-    private void Start()
+    private void OnEnable()
     {
         GlobalEventManager.OnEnemyKilled.AddListener(UpdateLvl);
         GlobalEventManager.OnEnemyKilled.AddListener(GenerateNewHP);
@@ -63,7 +63,7 @@ public class Enemy : MonoBehaviour
         _enemyLvl = enemy.EnemyLvl;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         GlobalEventManager.OnEnemyKilled.RemoveListener(UpdateLvl);
         GlobalEventManager.OnEnemyKilled.RemoveListener(GenerateNewHP);
