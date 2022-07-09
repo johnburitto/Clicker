@@ -1,6 +1,7 @@
+using Assets.Interfaces;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public class Weapon : MonoBehaviour, IUpdatable
 {
     [SerializeField] private WeaponRare _weaponRare = WeaponRare.None;
     [SerializeField] private HeroType _heroType = HeroType.None;
@@ -8,11 +9,8 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float _weaponLvl;
 
     public WeaponRare WeaponRare => _weaponRare;
-
     public HeroType HeroType => _heroType;
-
     public BigNumber WeaponDamage => _weaponDamage;
-
     public float WeaponLvl => _weaponLvl;
 
     private void Start()
@@ -21,7 +19,7 @@ public class Weapon : MonoBehaviour
         _weaponLvl = 0;
     }
 
-    public void UpdateWeapon()
+    public void UpdateStats()
     {
         _weaponLvl += 0.05f;
         _weaponDamage += _weaponDamage * _weaponLvl;

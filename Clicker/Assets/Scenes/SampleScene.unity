@@ -688,7 +688,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5, y: 5}
+  m_Size: {x: 5.6, y: 5}
   m_EdgeRadius: 0
 --- !u!114 &753060712
 MonoBehaviour:
@@ -843,7 +843,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6098025575072437467, guid: 556411f78a5a4e547ad190b59e940d00, type: 3}
       propertyPath: m_Name
-      value: Weapon _4
+      value: KnightWeapon
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 556411f78a5a4e547ad190b59e940d00, type: 3}
@@ -1001,7 +1001,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6098025575072437467, guid: 556411f78a5a4e547ad190b59e940d00, type: 3}
       propertyPath: m_Name
-      value: Weapon_1
+      value: ArcherWeapon
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 556411f78a5a4e547ad190b59e940d00, type: 3}
@@ -1187,7 +1187,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6098025575072437467, guid: 556411f78a5a4e547ad190b59e940d00, type: 3}
       propertyPath: m_Name
-      value: Weapon_2
+      value: WariorWeapon
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 556411f78a5a4e547ad190b59e940d00, type: 3}
@@ -1256,7 +1256,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6098025575072437467, guid: 556411f78a5a4e547ad190b59e940d00, type: 3}
       propertyPath: m_Name
-      value: Weapon_3
+      value: MageWeapon
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 556411f78a5a4e547ad190b59e940d00, type: 3}

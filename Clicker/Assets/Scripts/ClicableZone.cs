@@ -10,29 +10,31 @@ public class ClicableZone : MonoBehaviour
 
     public List<Hero> Heroes => _heroes;
 
+    private void OnEnable()
+    {
+        _enemy.OnEnemyDead += MakeSpriteGreen;
+    }
+
     private void Start()
     {
         _elementalCoef = ElementalCoef.Init;
         GlobalEventManager.LoadGame.Invoke();
-        Debug.Log(BigNumber.ValueOf(1.55555f, NumberScale.Millions).StringInDecimalFormat);
+    }
+
+    private void MakeSpriteGreen()
+    {
+        GetComponent<SpriteRenderer>().color = Color.green;
     }
 
     public void OnClick()
     {
         GetComponent<SpriteRenderer>().color = Color.red;
-        if (_enemy.GetDamage(_heroes, _elementalCoef))
-        {
-            Wallet.Instance.AddCash(100);
-            GlobalEventManager.OnEnemyKilled.Invoke(); 
-            GlobalEventManager.SaveGame.Invoke();
-            GetComponent<SpriteRenderer>().color = Color.green;
-        }
-
-        Debug.Log("Enemy health => " + _enemy.Health);
+        _enemy.TryApplyDamageFrom(_heroes, _elementalCoef);
     }
 
     private void OnDisable()
     {
-        GlobalEventManager.SaveGame.Invoke();   
+        GlobalEventManager.SaveGame.Invoke();
+        _enemy.OnEnemyDead -= MakeSpriteGreen;
     }
 }

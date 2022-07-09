@@ -124,8 +124,7 @@ public class BigNumber: IEquatable<BigNumber>, IEquatable<float>
     {
         if (number._number < 0)
         {
-            number._number = 0;
-            number._numberScale = global::NumberScale.Units;
+            number = ValueOf(0);
 
             return;
         }

@@ -1,7 +1,7 @@
-using System.Collections.Generic;
+using Assets.Interfaces;
 using UnityEngine;
 
-public class Hero : MonoBehaviour
+public class Hero : MonoBehaviour, IUpdatable
 {
     [SerializeField] private HeroType _heroType;
     [SerializeField] private HeroElement _heroElement;
@@ -10,13 +10,9 @@ public class Hero : MonoBehaviour
     [SerializeField] private int _heroLvl;
 
     public HeroType HeroType => _heroType;
-
     public HeroElement HeroElement => _heroElement;
-
     public BigNumber Damage => _damage;
-
     public Weapon Weapon => _weapon;
-
     public int HeroLvl => _heroLvl;
 
     private void Start()
