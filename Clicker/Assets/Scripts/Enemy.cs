@@ -1,9 +1,8 @@
-using Assets.Interfaces;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Enemy : MonoBehaviour, IUpdatable
+public class Enemy : MonoBehaviour
 {
     [SerializeField] private BigNumber _health = BigNumber.ValueOf(100f);
     [SerializeField] private float _enemyLvl;
@@ -55,14 +54,9 @@ public class Enemy : MonoBehaviour, IUpdatable
 
     public void UpdateStatsAndGenerateNewHP()
     {
-        UpdateStats();
+        _enemyLvl += 0.1f;
         _health = _previousHealth * 1.5f;
         _previousHealth = _health;
-    }
-
-    public void UpdateStats()
-    {
-        _enemyLvl += 0.1f;
     }
 
     public void LoadData(Save.EnemySaveData enemy)

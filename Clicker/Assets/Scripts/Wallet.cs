@@ -17,4 +17,9 @@ public class Wallet : MonoBehaviour
     {
         _cash += cashToAdd;
     }
+
+    public void SpendCash(float cashToSpend)
+    {
+        _cash -= cashToSpend;
+    }
 }

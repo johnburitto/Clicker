@@ -1,7 +1,6 @@
-using Assets.Interfaces;
 using UnityEngine;
 
-public class Hero : MonoBehaviour, IUpdatable
+public class Hero : MonoBehaviour
 {
     [SerializeField] private HeroType _heroType;
     [SerializeField] private HeroElement _heroElement;
@@ -11,19 +10,33 @@ public class Hero : MonoBehaviour, IUpdatable
 
     public HeroType HeroType => _heroType;
     public HeroElement HeroElement => _heroElement;
-    public BigNumber Damage => _damage;
+    public BigNumber Damage
+    {
+        get
+        {
+            return _damage;
+        }
+        set
+        {
+            _damage = value;
+        }
+    }
     public Weapon Weapon => _weapon;
-    public int HeroLvl => _heroLvl;
+    public int HeroLvl
+    {
+        get
+        {
+            return _heroLvl;
+        }
+        set
+        {
+            _heroLvl = value;
+        }
+    }
 
     private void Start()
     {
         _damage = BigNumber.ValueOf(_weapon.WeaponDamage);
-    }
-
-    public void UpdateStats()
-    {
-        _heroLvl++;
-        _damage += _weapon.WeaponDamage * _heroLvl;
     }
 
     public void LoadData(Save.HeroSaveData hero)
